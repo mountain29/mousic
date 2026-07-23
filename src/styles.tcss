@@ -29,10 +29,10 @@
 }
 
 #action-pane {
-    padding: 1 1 1 2;
+    padding: 1 2;
 }
 
-#content-pane {
+#queue-pane {
     height: 7fr;
     align: center middle;
     color: $text-disabled;
@@ -42,18 +42,37 @@
     height: 4fr;
 }
 
-
-
 .pane {
-    border: round $primary-background;
+    border: round $primary;
     border-title-style: bold;
     border-title-align: right;
 }
 
-#footer {
-    # background: blue;
+.focused {
+    # border: round $primary;
+    opacity: 1;
 }
 
-.focused {
-    border: round $primary;
+.blurred {
+    opacity: 0.75;
+    color: $text-disabled;
+}
+
+#action-navigation {
+    border-bottom: tab $primary-background;
+    # background: $primary-background;
+}
+
+#actions {
+    width: 3fr;
+    border-right: solid $secondary-background;
+}
+
+#sub-actions {
+    width: 5fr;
+    padding-left: 2;
+}
+
+#content-label {
+    # opacity: 0.1;
 }

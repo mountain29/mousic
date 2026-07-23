@@ -5,7 +5,7 @@ from textual.events import Focus, Blur
 
 class AppHeader(Horizontal):
     def compose(self):
-        yield Label("[b]Mou's Music Player[/]", id="app-title")
+        yield Label("[b]Mousic[/]", id="app-title")
         yield Label("[dim]Demo[/]", id="app-version")
 
 class AppBody(Horizontal):
@@ -15,7 +15,7 @@ class AppBody(Horizontal):
             yield ActionPane(id="action-pane", classes="pane")
 
         with Vertical(id="right-section"):
-            yield ContentPane(id="content-pane", classes="pane")
+            yield QueuePane(id="queue-pane", classes="pane")
             yield StatusPane(id="status-pane", classes="pane")
 
 class ActionPane(Vertical):
@@ -26,11 +26,20 @@ class ActionPane(Vertical):
     selected_action = 0
 
     def compose(self) -> ComposeResult:
-        for i in self.ACTIONS:
-            if i == self.ACTIONS[self.selected_action]:
-                yield Label(f"[b]{i}[/] 👈", classes="action-label")
-            else:
-                yield Label(f"[dim]{i}[/]", classes="action-label")
+        with Horizontal(id="action-navigation"):
+
+            with Vertical(id="actions"):
+                for i in self.ACTIONS:
+                    if i == self.ACTIONS[self.selected_action]:
+                        yield Label(f"♪ [b]{i}[/]", classes="action-label")
+                    else:
+                        yield Label(f"[dim]{i}[/]", classes="action-label")
+
+            with Vertical(id="sub-actions"):
+                yield Label("sub-actions")
+
+        with Vertical(id="action-content"):
+            yield Label("content")
     
     def on_key(self, event) -> None:
         if event.key == "up":
@@ -42,45 +51,53 @@ class ActionPane(Vertical):
     def _update_action_labels(self) -> None:
         for i, label in enumerate(self.query(".action-label")):
             if i == self.selected_action:
-                label.update(f"[b]{self.ACTIONS[i]}[/] 👈")
+                label.update(f"♪ [b]{self.ACTIONS[i]}[/]")
             else:
                 label.update(f"[dim]{self.ACTIONS[i]}[/]")
 
     def on_focus(self, event: Focus) -> None:
         self.border_title = "Actions"
         self.add_class("focused")
+        self.remove_class("blurred")
     
     def on_blur(self, event: Blur) -> None:
         self.border_title = ""
+        self.add_class("blurred")
         self.remove_class("focused")
 
     
 
-class ContentPane(Horizontal):
+class QueuePane(Horizontal):
 
     can_focus = True
 
     def compose(self) -> ComposeResult:
+        self.add_class("blurred")
         yield Label("🦗   Empty Queue   🦗", id="content-label")
 
     def on_focus(self, event: Focus) -> None:
-        self.border_title = "Content"
+        self.border_title = "Queue"
         self.add_class("focused")
+        self.remove_class("blurred")
     
     def on_blur(self, event: Blur) -> None:
         self.border_title = ""
+        self.add_class("blurred")
         self.remove_class("focused")
 
 class StatusPane(Horizontal):
     can_focus = True
 
     def compose(self) -> ComposeResult:
+        self.add_class("blurred")
         yield Label("", id="content-label")
 
     def on_focus(self, event: Focus) -> None:
         self.border_title = "Status"
         self.add_class("focused")
+        self.remove_class("blurred")
     
     def on_blur(self, event: Blur) -> None:
         self.border_title = ""
+        self.add_class("blurred")
         self.remove_class("focused")
