@@ -1,0 +1,65 @@
+#app-container {
+    height: 100%;
+    width: 100%;
+    margin: 1 2 0 2;
+    padding: 0;
+}
+
+# Top Section
+#top-section {
+    height: 1;
+    padding-left: 2;
+    margin-bottom: 1;
+    # background: red;
+}
+
+# app-title
+
+#app-version {
+    padding-left: 2;
+}
+# ------------
+
+#main-section {
+    height: 5fr;
+}
+
+#bottom-section {
+    height: 3fr;
+    # background: red;
+}
+
+#action-pane {
+    padding: 1 1 1 2;
+    width: 2fr;
+}
+
+#content-pane {
+    width: 3fr;
+    align: center middle;
+    color: $text-disabled;
+}
+
+#content-label {
+    
+}
+
+#status-pane {
+    height: 1fr;
+}
+
+
+
+.pane {
+    border: round $primary-background;
+    border-title-style: bold;
+    border-title-align: right;
+}
+
+#footer {
+    # background: blue;
+}
+
+.focused {
+    border: round $primary;
+}
