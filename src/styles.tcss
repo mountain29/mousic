@@ -20,32 +20,26 @@
 }
 # ------------
 
-#main-section {
-    height: 5fr;
+#left-section {
+    width: 3fr;
 }
 
-#bottom-section {
-    height: 3fr;
-    # background: red;
+#right-section {
+    width: 5fr;
 }
 
 #action-pane {
     padding: 1 1 1 2;
-    width: 2fr;
 }
 
 #content-pane {
-    width: 3fr;
+    height: 7fr;
     align: center middle;
     color: $text-disabled;
 }
 
-#content-label {
-    
-}
-
 #status-pane {
-    height: 1fr;
+    height: 4fr;
 }
 
 

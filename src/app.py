@@ -8,16 +8,14 @@ class AppHeader(Horizontal):
         yield Label("[b]Mou's Music Player[/]", id="app-title")
         yield Label("[dim]Demo[/]", id="app-version")
 
-class AppBody(Container):
+class AppBody(Horizontal):
 
     def compose(self):
-        with Horizontal(id="main-section"):
-            
+        with Vertical(id="left-section"):
             yield ActionPane(id="action-pane", classes="pane")
-            
-            yield ContentPane(id="content-pane", classes="pane")
 
-        with Vertical(id="bottom-section"):
+        with Vertical(id="right-section"):
+            yield ContentPane(id="content-pane", classes="pane")
             yield StatusPane(id="status-pane", classes="pane")
 
 class ActionPane(Vertical):
@@ -28,8 +26,6 @@ class ActionPane(Vertical):
     selected_action = 0
 
     def compose(self) -> ComposeResult:
-        self.border_title = "Actions"
-
         for i in self.ACTIONS:
             if i == self.ACTIONS[self.selected_action]:
                 yield Label(f"[b]{i}[/] 👈", classes="action-label")
@@ -58,14 +54,14 @@ class ActionPane(Vertical):
         self.border_title = ""
         self.remove_class("focused")
 
+    
 
-class ContentPane(Vertical):
+class ContentPane(Horizontal):
 
     can_focus = True
 
     def compose(self) -> ComposeResult:
-        self.border_title = "Content"
-        yield Label("🦗 Empty Queue 🦗", id="content-label")
+        yield Label("🦗   Empty Queue   🦗", id="content-label")
 
     def on_focus(self, event: Focus) -> None:
         self.border_title = "Content"
@@ -79,11 +75,10 @@ class StatusPane(Horizontal):
     can_focus = True
 
     def compose(self) -> ComposeResult:
-        self.border_title = "Status"
         yield Label("", id="content-label")
 
     def on_focus(self, event: Focus) -> None:
-        self.border_title = "Content"
+        self.border_title = "Status"
         self.add_class("focused")
     
     def on_blur(self, event: Blur) -> None:
