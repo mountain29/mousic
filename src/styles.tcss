@@ -64,12 +64,12 @@
 }
 
 #actions {
-    width: 3fr;
+    width: 1fr;
     border-right: solid $secondary-background;
 }
 
 #sub-actions {
-    width: 5fr;
+    width: 1fr;
     padding-left: 2;
 }
 

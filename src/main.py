@@ -11,7 +11,8 @@ class MusicApp(App):
     COMMANDS = {ThemeProvider}   
 
     BINDINGS = [
-        ("z", "back", "Back")
+        ("z", "back", "Back"),
+        ("q", "quit", "Quit")
     ]
 
     def compose(self):
