@@ -24,7 +24,6 @@ class ActionPane(Vertical):
 
     can_focus = True
 
-
     # ACTIONS = ["Play", "Add", "Playlists", "Favorited", "Edit Queue"]
     ACTIONS = Actions.get_actions()
     selected_action_index = 0
@@ -82,8 +81,6 @@ class ActionPane(Vertical):
         self.border_title = ""
         self.add_class("blurred")
         self.remove_class("focused")
-
-    
 
 class QueuePane(Horizontal):
 
