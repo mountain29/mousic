@@ -6,9 +6,9 @@ class SubActionKey(Enum):
     ADD_PLAYLIST = auto()
     ADD_RECOMMEND = auto()
 
-    PLAYLIST_NEW = auto()
-    PLAYLIST_MANAGE = auto()
-    PLAYLIST_IMPORT = auto()
+    PLAYLISTS_NEW = auto()
+    PLAYLISTS_MANAGE = auto()
+    PLAYLISTS_IMPORT = auto()
 
     FAV_SONGS = auto()
     FAV_ARTISTS = auto()
@@ -41,21 +41,21 @@ class Actions(Enum):
         )
     )
 
-    PLAYLIST = (
+    PLAYLISTS = (
         "Playlist",
         (
             SubActionMetadata(
-                SubActionKey.PLAYLIST_NEW,
+                SubActionKey.PLAYLISTS_NEW,
                 "New",
                 "Create a new empty playlist"
             ),
             SubActionMetadata(
-                SubActionKey.PLAYLIST_MANAGE,
+                SubActionKey.PLAYLISTS_MANAGE,
                 "Manage",
                 "Add songs from a playlist"
             ),
             SubActionMetadata(
-                SubActionKey.PLAYLIST_IMPORT,
+                SubActionKey.PLAYLISTS_IMPORT,
                 "Import",
                 "Import an existing Youtube playlist"
             )
@@ -85,4 +85,7 @@ class Actions(Enum):
     def get_actions() -> list[str]:
         return [action for action in Actions]
 
-# print(Actions[0])
+class ActionFocus(Enum):
+    ACTION = auto()
+    SUB_ACTION = auto()
+    CONTENT = auto()

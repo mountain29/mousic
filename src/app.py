@@ -3,7 +3,9 @@ from textual.widgets import Header, Footer, Static, Label
 from textual.containers import Horizontal, Vertical, Container
 from textual.events import Focus, Blur
 
-from enums import Actions
+from collections import deque
+
+from enums import Actions, ActionFocus
 
 class AppHeader(Horizontal):
     def compose(self):
@@ -24,9 +26,11 @@ class ActionPane(Vertical):
 
     can_focus = True
 
-    # ACTIONS = ["Play", "Add", "Playlists", "Favorited", "Edit Queue"]
     ACTIONS = Actions.get_actions()
     selected_action_index = 0
+    selected_subaction_index = -1
+
+    FOCUS_CYCLE = deque([ActionFocus.ACTION, ActionFocus.SUB_ACTION, ActionFocus.CONTENT])
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="action-navigation"):
@@ -39,17 +43,45 @@ class ActionPane(Vertical):
                         yield Label(f"[dim]{action.display_name}[/]", classes="action-label")
 
             with Vertical(id="sub-actions"):
-                for sub_action in self.ACTIONS[self.selected_action_index].sub_actions:
+                for sub_action in self._get_subactions():
                     yield Label(f"[dim]{sub_action.display_name}[/]", classes="subaction-label")
 
         with Vertical(id="action-content"):
             yield Label("content")
     
     def on_key(self, event) -> None:
-        if event.key == "up":
-            self.selected_action_index = (self.selected_action_index - 1) % len(self.ACTIONS)
-        elif event.key == "down":
-            self.selected_action_index = (self.selected_action_index + 1) % len(self.ACTIONS)
+
+        if event.key in ["up", "down"]:
+            match self.FOCUS_CYCLE[0]:
+                case ActionFocus.ACTION:
+
+                    if event.key == "up":
+                        self.selected_action_index = (self.selected_action_index - 1) % len(self.ACTIONS)
+                    elif event.key == "down":
+                        self.selected_action_index = (self.selected_action_index + 1) % len(self.ACTIONS)
+
+                case ActionFocus.SUB_ACTION:
+
+                    sub_actions = self._get_subactions()
+                    if event.key == "up":
+                        self.selected_subaction_index = (self.selected_subaction_index - 1) % len(sub_actions)
+                    elif event.key == "down":
+                        self.selected_subaction_index = (self.selected_subaction_index + 1) % len(sub_actions)
+        else:
+            if event.key == "z":
+                if self.FOCUS_CYCLE[0] == ActionFocus.CONTENT:
+                    pass
+                else:
+                    if self.FOCUS_CYCLE[0] == ActionFocus.ACTION:
+                        self.selected_subaction_index = 0
+
+                    self.FOCUS_CYCLE.rotate(-1)
+
+            elif event.key == "x" and self.FOCUS_CYCLE[0] != ActionFocus.ACTION:
+                if self.FOCUS_CYCLE[0] == ActionFocus.SUB_ACTION:
+                    self.selected_subaction_index = -1
+
+                self.FOCUS_CYCLE.rotate(1)
 
         self._update_action_labels()
         self._update_subaction_labels()
@@ -57,7 +89,8 @@ class ActionPane(Vertical):
     def _update_action_labels(self) -> None:
         for i, label in enumerate(self.query(".action-label")):
             if i == self.selected_action_index:
-                label.update(f"♪ [b]{self.ACTIONS[i].display_name}[/]")
+                prefix = "♪ " if self.FOCUS_CYCLE[0] == ActionFocus.ACTION else ""
+                label.update(f"{prefix}[b]{self.ACTIONS[i].display_name}[/]")
             else:
                 label.update(f"[dim]{self.ACTIONS[i].display_name}[/]")
 
@@ -65,10 +98,13 @@ class ActionPane(Vertical):
         container = self.query_one("#sub-actions")
         container.remove_children()
 
-        labels = [
-            Label(f"[dim]{sub_action.display_name}[/]", classes="subaction-label") 
-            for sub_action in self.ACTIONS[self.selected_action_index].sub_actions
-        ]
+        labels = []
+        for i,sub_action in enumerate(self._get_subactions()):
+            if i == self.selected_subaction_index:
+                prefix = "♪ " if self.FOCUS_CYCLE[0] == ActionFocus.SUB_ACTION else ""
+                labels.append(Label(f"{prefix}[b]{sub_action.display_name}[/]", classes="subaction-label"))
+            else:
+                labels.append(Label(f"[dim]{sub_action.display_name}[/]", classes="subaction-label"))
 
         container.mount(*labels)
 
@@ -81,6 +117,9 @@ class ActionPane(Vertical):
         self.border_title = ""
         self.add_class("blurred")
         self.remove_class("focused")
+
+    def _get_subactions(self) -> tuple:
+        return self.ACTIONS[self.selected_action_index].sub_actions
 
 class QueuePane(Horizontal):
 
