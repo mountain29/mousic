@@ -28,7 +28,6 @@ class AppBody(Vertical):
 
             yield Browser(classes="border1")
 
-
 class Thumbnail(Vertical):
 
     def compose(self):
