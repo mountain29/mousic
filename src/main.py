@@ -16,8 +16,8 @@ class MusicApp(App):
     ]
 
     def compose(self):
-        with Container(id="app-container"):
-            yield AppHeader(id="top-section")
+        with Container():
+            yield AppHeader(id="title-bar")
             yield AppBody()
         
         yield Footer()
