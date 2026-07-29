@@ -2,9 +2,63 @@
     height: 1;
 }
 
-.border1 {
-    border: heavy white;
+#app {
+    padding: 0 1 0 1;
 }
+
+#playback {
+    height: 2fr;
+}
+
+#thumbnail-pane {
+    width: 1fr;
+}
+
+#player-pane {
+    width: 4fr;
+}
+
+#info-pane {
+    width: 1fr;
+}
+
+
+
+#workspace {
+    height: 5fr;
+}
+
+#details {
+    width: 3fr;
+}
+
+#browser-pane {
+    width: 5fr;
+}
+#search {
+    border: tall $surface;
+}
+#search-result {
+    height: 1fr;
+    border: tall $surface;
+}
+
+#lyrics-pane {
+    height: 1fr;
+}
+
+#queue-pane {
+    height: 2fr;
+}
+
+
+
+.pane {
+    border: round $primary;
+}
+# .pane:focus {
+#     border: round $accent;
+# }
 
 .bg {
     background: red;
