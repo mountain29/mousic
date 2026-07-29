@@ -1,78 +1,11 @@
-#app-container {
-    height: 100%;
-    width: 100%;
-    margin: 1 2 0 2;
-    padding: 0;
-}
-
-# Top Section
-#top-section {
+#title-bar {
     height: 1;
-    padding-left: 2;
-    margin-bottom: 1;
-    # background: red;
 }
 
-# app-title
-
-#app-version {
-    padding-left: 2;
-}
-# ------------
-
-#left-section {
-    width: 3fr;
+.border1 {
+    border: heavy white;
 }
 
-#right-section {
-    width: 5fr;
-}
-
-#action-pane {
-    padding: 1 2;
-}
-
-#queue-pane {
-    height: 7fr;
-    align: center middle;
-    color: $text-disabled;
-}
-
-#status-pane {
-    height: 4fr;
-}
-
-.pane {
-    border: round $primary;
-    border-title-style: bold;
-    border-title-align: right;
-}
-
-.focused {
-    # border: round $primary;
-    opacity: 1;
-}
-
-.blurred {
-    opacity: 0.75;
-    color: $text-disabled;
-}
-
-#action-navigation {
-    border-bottom: tab $primary-background;
-    # background: $primary-background;
-}
-
-#actions {
-    width: 1fr;
-    border-right: solid $secondary-background;
-}
-
-#sub-actions {
-    width: 1fr;
-    padding-left: 2;
-}
-
-#content-label {
-    # opacity: 0.1;
+.bg {
+    background: red;
 }
