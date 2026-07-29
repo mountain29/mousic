@@ -41,6 +41,7 @@
 #search-result {
     height: 1fr;
     border: tall $surface;
+    scrollbar-size: 0 0;
 }
 
 #lyrics-pane {

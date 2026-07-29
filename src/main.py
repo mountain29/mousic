@@ -11,7 +11,7 @@ class MusicApp(App):
     COMMANDS = {ThemeProvider}   
 
     BINDINGS = [
-        ("z", "back", "Back"),
+        ("/", "search", "Search"),
         ("q", "quit", "Quit")
     ]
 
@@ -21,6 +21,10 @@ class MusicApp(App):
             yield AppBody(id="app")
         
         yield Footer()
+
+    def action_search(self):
+        search = self.query_one("#search")
+        search.focus()
 
 if __name__ == "__main__":
     MusicApp().run()
