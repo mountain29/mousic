@@ -51,7 +51,9 @@
 #queue-pane {
     height: 2fr;
 }
-
+#queue {
+    scrollbar-size: 0 0;
+}
 
 
 .pane {

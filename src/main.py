@@ -10,6 +10,8 @@ class MusicApp(App):
     
     COMMANDS = {ThemeProvider}   
 
+    
+
     BINDINGS = [
         ("/", "search", "Search"),
         ("q", "quit", "Quit")
@@ -21,6 +23,10 @@ class MusicApp(App):
             yield AppBody(id="app")
         
         yield Footer()
+
+    def on_mount(self):
+        # self.theme = "catppuccin-macchiato"
+        self.theme = "nord"
 
     def action_search(self):
         search = self.query_one("#search")
