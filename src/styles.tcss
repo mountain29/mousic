@@ -1,5 +1,14 @@
 #title-bar {
     height: 1;
+    align: center middle;
+}
+#app-title {
+    margin-right: 1;
+    color: $accent-lighten-3;
+}
+#app-version {
+    margin-right: 1;
+    color: $surface-lighten-3;
 }
 
 #app {
