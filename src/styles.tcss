@@ -25,13 +25,40 @@
 
 #player-pane {
     width: 4fr;
+    # align: center middle;
+}
+.player-title {
+    width: 1fr;
+    text-align: center;
+}
+#progress-bar-wrapper {
+    height: 1;
+    align: center middle;
+    # background: black;
+}
+#progress-bar {
+    width: 60%;
+    padding: 0 1;
+    # align: center middle;
+}
+#progress-bar > Bar {
+    width: 100%;
+}
+#player-settings {
+    # align: left bottom; 
+}
+#player-top-section {
+    padding-top: 1;
+    align: center middle;
+}
+#player-bottom-section {
+    align: left bottom; 
+    height: 1;
 }
 
 #info-pane {
     width: 1fr;
 }
-
-
 
 #workspace {
     height: 5fr;

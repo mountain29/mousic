@@ -7,7 +7,8 @@ from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
 from textual.events import Blur, Focus
 from textual.screen import ModalScreen
-from textual.widgets import DataTable, Footer, Header, Input, Label, Static
+from textual.widgets import DataTable, Footer, Header, Input, Label, Static, ProgressBar
+from textual.coordinate import Coordinate
 from youtube import yt
 from tools import toolbox
 
@@ -20,7 +21,12 @@ class AppHeader(Horizontal):
 
 class AppBody(Vertical):
 
+    BINDINGS = [
+            ("p", "play_queue", "play/pause"),
+        ]
+
     songs_data = {}
+    playing_index = 0
 
     def compose(self):
         with Horizontal(id="playback"):
@@ -44,23 +50,23 @@ class AppBody(Vertical):
         row_key = event.row_key
         if row_key.value == "disabled": return
 
-        print(self.songs_data)
-        print(row_key.value)
+        # print(self.songs_data)
+        # print(row_key.value)
 
         title = self.songs_data[row_key.value]["title"]
         isExplicit = self.songs_data[row_key.value]["isExplicit"]
         cropped_title = toolbox.truncate_text(title, 40, isExplicit, index)
 
-        queue.add_row(
-            cropped_title,
-        )
+        queue.add_row(cropped_title, key=row_key.value)
 
         queue.move_cursor(row=queue.row_count - 1)
 
     @on(Input.Submitted, "#search")
     def handle_search(self, event: Input.Submitted):
+
         search_result: DataTable = self.query_one("#search-result", DataTable)
         search_result.clear()
+        if event.value == "": return
         search_result.add_row("Please wait...", "", key="disabled")
         search_result.focus()
 
@@ -105,6 +111,18 @@ class AppBody(Vertical):
                 "isExplicit": isExplicit,
             }
 
+    def action_play_queue(self):
+        queue: DataTable = self.query_one("#queue", DataTable)
+        if queue.row_count == 0: return
+        queue.move_cursor(row=0)
+        # queue.focus()
+        row = queue.coordinate_to_cell_key(Coordinate(self.playing_index, 0))
+        row_key = row.row_key.value
+
+        # play_song()
+
+    def play_song(self, key: int):
+        pass
 
 class ThumbnailPane(Vertical):
 
@@ -113,6 +131,18 @@ class ThumbnailPane(Vertical):
 
 
 class PlayerPane(Vertical):
+
+    def compose(self):
+        with Vertical(id="player-top-section"):
+            yield Label("[dim]skibidi rizzler[/]",classes="player-title")
+            yield Label("[b]Hello[/]",classes="player-title")
+            with Horizontal(id="progress-bar-wrapper"):
+                yield Label("00:00", id="current-time")
+                yield ProgressBar(id="progress-bar", show_percentage=False, show_eta=False)
+                yield Label("00:00", id="total-time")
+
+        with Horizontal(id="player-bottom-section"):
+            yield Label("Settings", id="player-settings")
 
     def on_mount(self):
         self.border_title = "player"
